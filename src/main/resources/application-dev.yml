@@ -48,5 +48,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
+    org.apache.kafka: ERROR
+    org.springframework.kafka: ERROR
     net.logstash.logback: ERROR
     org.springframework.cache: TRACE
