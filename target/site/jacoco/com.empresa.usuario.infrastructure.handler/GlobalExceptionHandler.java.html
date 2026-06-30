@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-usuario</a> &gt; <a href="index.source.html" class="el_package">com.empresa.usuario.infrastructure.handler</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.empresa.usuario.infrastructure.handler;
+
+import com.empresa.usuario.infrastructure.exception.EmailJaCadastradoException;
+import com.empresa.usuario.infrastructure.exception.UsuarioNaoEncontradoException;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+/**
+ * Manipulador global de exceções para a aplicação.
+ */
+@RestControllerAdvice
+<span class="fc" id="L21">@Slf4j</span>
+<span class="fc" id="L22">public class GlobalExceptionHandler {</span>
+
+  /**
+   * Manipulador de exceção para usuário não encontrado.
+   *
+   * @param ex exceção UsuarioNaoEncontradoException
+   * @return ProblemDetail no modelo RFC 7807 com detalhes do erro
+   */
+  @ExceptionHandler(UsuarioNaoEncontradoException.class)
+  public ProblemDetail handleNaoEncontrado(UsuarioNaoEncontradoException ex) {
+<span class="fc" id="L32">    log.warn(&quot;Usuário não encontrado: {}&quot;, ex.getMessage());</span>
+<span class="fc" id="L33">    return construirProblem(HttpStatus.NOT_FOUND, &quot;Usuário não encontrado&quot;, ex.getMessage(), null);</span>
+  }
+
+  /**
+   * Manipulador de exceção para e-mail já cadastrado.
+   *
+   * @param ex exceção EmailJaCadastradoException
+   * @return ProblemDetail no modelo RFC 7807 com detalhes do erro
+   */
+  @ExceptionHandler(EmailJaCadastradoException.class)
+  public ProblemDetail handleEmailDuplicado(EmailJaCadastradoException ex) {
+<span class="fc" id="L44">    log.warn(&quot;E-mail duplicado: {}&quot;, ex.getMessage());</span>
+<span class="fc" id="L45">    return construirProblem(HttpStatus.CONFLICT, &quot;E-mail já cadastrado&quot;, ex.getMessage(), null);</span>
+  }
+
+  /**
+   * Manipulador de exceção para erros de validação de dados.
+   *
+   * @param ex exceção MethodArgumentNotValidException
+   * @return ProblemDetail no modelo RFC 7807 com detalhes do erro
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ProblemDetail handleValidacao(MethodArgumentNotValidException ex) {
+<span class="fc" id="L56">    Map&lt;String, String&gt; campos = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    for (FieldError error : ex.getBindingResult().getFieldErrors()) {</span>
+<span class="fc" id="L58">      campos.putIfAbsent(error.getField(), error.getDefaultMessage());</span>
+<span class="fc" id="L59">    }</span>
+<span class="fc" id="L60">    log.warn(&quot;Erro de validação: {}&quot;, campos);</span>
+<span class="fc" id="L61">    ProblemDetail problem = construirProblem(HttpStatus.UNPROCESSABLE_ENTITY, &quot;Erro de validação&quot;,</span>
+        &quot;Dados inválidos&quot;, campos);
+<span class="fc" id="L63">    problem.setProperty(&quot;campos&quot;, campos);</span>
+<span class="fc" id="L64">    return problem;</span>
+  }
+
+  /**
+   * Manipulador de exceção genérica para erros inesperados.
+   *
+   * @param ex exceção genérica
+   * @return ProblemDetail no modelo RFC 7807 com detalhes do erro
+   */
+
+  @ExceptionHandler(Exception.class)
+  public ProblemDetail handleGenerico(Exception ex) {
+<span class="fc" id="L76">    log.error(&quot;Erro interno não esperado&quot;, ex);</span>
+<span class="fc" id="L77">    return construirProblem(HttpStatus.INTERNAL_SERVER_ERROR, &quot;Erro interno&quot;,</span>
+        &quot;Ocorreu um erro inesperado&quot;, null);
+  }
+
+  /**
+   * Manipulador de exceção para recursos não encontrados.
+   *
+   * @param ex exceção NoResourceFoundException
+   * @return ProblemDetail no modelo RFC 7807 com detalhes do erro
+   */
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ProblemDetail handleNoResourceFound(NoResourceFoundException ex) {
+<span class="nc" id="L89">    return construirProblem(HttpStatus.NOT_FOUND, &quot;Recurso não encontrado&quot;, ex.getMessage(), null);</span>
+  }
+
+  private ProblemDetail construirProblem(HttpStatus status, String titulo, String detalhe,
+      Map&lt;String, String&gt; campos) {
+<span class="fc" id="L94">    ProblemDetail problem = ProblemDetail.forStatus(status);</span>
+<span class="fc" id="L95">    problem.setTitle(titulo);</span>
+<span class="fc" id="L96">    problem.setDetail(detalhe);</span>
+<span class="fc" id="L97">    problem.setType(URI.create(&quot;ms-usuario/erros&quot;));</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">    if (campos != null) {</span>
+<span class="fc" id="L99">      problem.setProperty(&quot;campos&quot;, campos);</span>
+    }
+<span class="fc" id="L101">    return problem;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
