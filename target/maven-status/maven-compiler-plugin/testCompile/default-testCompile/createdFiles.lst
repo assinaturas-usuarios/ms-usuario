@@ -1,8 +1,0 @@
-com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImplTest$CenariosFalha.class
-com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioPersistenceAdapterTest.class
-com\empresa\usuario\infrastructure\handler\GlobalExceptionHandlerTest.class
-com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImplTest$CenariosSuccesso.class
-com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImplTest$CenariosFailha.class
-com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImplTest.class
-com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImplTest$CenariosSuccesso.class
-com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImplTest.class
