@@ -1,0 +1,16 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+ms-usuario,com.empresa.usuario.application.dto,UsuarioResponse,0,15,0,0,0,1,0,1,0,1
+ms-usuario,com.empresa.usuario.application.dto,CadastrarUsuarioRequest,0,9,0,0,0,1,0,1,0,1
+ms-usuario,com.empresa.usuario.infrastructure.mapper,UsuarioMapperImpl,100,0,6,0,33,0,7,0,4,0
+ms-usuario,com.empresa.usuario.infrastructure.handler,GlobalExceptionHandler,0,129,1,5,0,27,1,11,0,9
+ms-usuario,com.empresa.usuario.application.usecase,CadastrarUsuarioUseCaseImpl,0,49,0,2,0,11,0,4,0,3
+ms-usuario,com.empresa.usuario.application.usecase,BuscarUsuarioUseCaseImpl,0,29,0,0,0,5,0,3,0,3
+ms-usuario,com.empresa.usuario.infrastructure.config,RedisConfig,24,0,0,0,9,0,2,0,2,0
+ms-usuario,com.empresa.usuario.infrastructure.config,RedisConfig.CacheableTypeMixin,3,0,0,0,1,0,1,0,1,0
+ms-usuario,com.empresa.usuario.infrastructure.config,SwaggerConfig,17,0,0,0,6,0,2,0,2,0
+ms-usuario,com.empresa.usuario,UsuarioApplication,8,0,0,0,3,0,2,0,2,0
+ms-usuario,com.empresa.usuario.infrastructure.adapter.in.rest,UsuarioController,0,23,0,0,0,5,0,3,0,3
+ms-usuario,com.empresa.usuario.infrastructure.exception,EmailJaCadastradoException,0,5,0,0,0,2,0,1,0,1
+ms-usuario,com.empresa.usuario.infrastructure.exception,UsuarioNaoEncontradoException,0,6,0,0,0,2,0,1,0,1
+ms-usuario,com.empresa.usuario.domain.model,Usuario,0,35,0,0,0,11,0,6,0,6
+ms-usuario,com.empresa.usuario.infrastructure.adapter.out.persistence,UsuarioPersistenceAdapter,0,33,0,0,0,5,0,3,0,3

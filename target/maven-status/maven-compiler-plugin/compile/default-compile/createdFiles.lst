@@ -7,7 +7,6 @@ com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioJpaRepository.
 com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImpl.class
 com\empresa\usuario\infrastructure\config\RedisConfig.class
 com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImpl.class
-com\empresa\usuario\infrastructure\adapter\out\error\ErrorResponse$Builder.class
 com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioPersistenceAdapter.class
 com\empresa\usuario\domain\port\in\BuscarUsuarioUseCase.class
 com\empresa\usuario\infrastructure\exception\UsuarioNaoEncontradoException.class
@@ -17,7 +16,6 @@ com\empresa\usuario\application\dto\CadastrarUsuarioRequest.class
 com\empresa\usuario\infrastructure\config\SwaggerConfig.class
 com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioController.class
 com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioSwagger.class
-com\empresa\usuario\infrastructure\adapter\out\error\ErrorResponse.class
 com\empresa\usuario\infrastructure\exception\EmailJaCadastradoException.class
 com\empresa\usuario\UsuarioApplication.class
 com\empresa\usuario\infrastructure\handler\GlobalExceptionHandler.class

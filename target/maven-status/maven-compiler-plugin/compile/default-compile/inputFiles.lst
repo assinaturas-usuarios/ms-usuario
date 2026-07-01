@@ -8,7 +8,6 @@ C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empres
 C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\domain\port\out\UsuarioRepositoryPort.java
 C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioController.java
 C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioSwagger.java
-C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\infrastructure\adapter\out\error\ErrorResponse.java
 C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioEntity.java
 C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioJpaRepository.java
 C:\Users\luana\Downloads\assinatura-usuarios\ms-usuario\src\main\java\com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioPersistenceAdapter.java

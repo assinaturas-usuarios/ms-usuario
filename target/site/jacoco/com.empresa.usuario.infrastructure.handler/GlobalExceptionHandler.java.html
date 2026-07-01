@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-usuario</a> &gt; <a href="index.source.html" class="el_package">com.empresa.usuario.infrastructure.handler</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.empresa.usuario.infrastructure.handler;
+
+import com.empresa.usuario.infrastructure.exception.EmailJaCadastradoException;
+import com.empresa.usuario.infrastructure.exception.UsuarioNaoEncontradoException;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+/**
+ * Manipulador global de exceções para a aplicação.
+ * Retorna ProblemDetail no formato RFC 7807 para todos os erros.
+ */
+@RestControllerAdvice
+<span class="fc" id="L23">@Slf4j</span>
+<span class="fc" id="L24">public class GlobalExceptionHandler {</span>
+
+  /**
+   * Manipulador de exceção para usuário não encontrado (404).
+   * 
+   * @param ex UsuarioNaoEncontradoException lançada
+   * @return um ProblemDetail, no formato RFC 7807, com informações sobre o erro
+   */
+  @ExceptionHandler(UsuarioNaoEncontradoException.class)
+  public ProblemDetail handleNaoEncontrado(UsuarioNaoEncontradoException ex) {
+<span class="fc" id="L34">    log.warn(&quot;Usuário não encontrado: {}&quot;, ex.getMessage());</span>
+<span class="fc" id="L35">    return construirProblem(HttpStatus.NOT_FOUND, &quot;Usuário Não Encontrado&quot;, ex.getMessage(),</span>
+        null);
+  }
+
+  /**
+   * Manipulador de exceção para e-mail já cadastrado (409).
+   * 
+   * @param ex EmailJaCadastradoException lançada
+   * @return um ProblemDetail, no formato RFC 7807, com informações sobre o erro
+   */
+  @ExceptionHandler(EmailJaCadastradoException.class)
+  public ProblemDetail handleEmailDuplicado(EmailJaCadastradoException ex) {
+<span class="fc" id="L47">    log.warn(&quot;E-mail duplicado: {}&quot;, ex.getMessage());</span>
+<span class="fc" id="L48">    return construirProblem(HttpStatus.CONFLICT, &quot;Conflito: E-mail Já Cadastrado&quot;,</span>
+<span class="fc" id="L49">        ex.getMessage(), null);</span>
+  }
+
+  /**
+   * Manipulador de exceção para erros de validação de dados (422).
+   * 
+   * @param ex MethodArgumentNotValidException lançada
+   * @return um ProblemDetail, no formato RFC 7807, com informações sobre o erro e os campos com erros de validação
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ProblemDetail handleValidacao(MethodArgumentNotValidException ex) {
+<span class="fc" id="L60">    Map&lt;String, String&gt; campos = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    for (FieldError error : ex.getBindingResult().getFieldErrors()) {</span>
+<span class="fc" id="L62">      campos.putIfAbsent(error.getField(), error.getDefaultMessage());</span>
+<span class="fc" id="L63">    }</span>
+<span class="fc" id="L64">    log.warn(&quot;Erro de validação: {}&quot;, campos);</span>
+<span class="fc" id="L65">    ProblemDetail problem = construirProblem(HttpStatus.UNPROCESSABLE_ENTITY,</span>
+        &quot;Erro de Validação&quot;, &quot;Os dados fornecidos contêm erros de validação&quot;, campos);
+<span class="fc" id="L67">    return problem;</span>
+  }
+
+  /**
+   * Manipulador de exceção para recursos não encontrados (404).
+   * 
+   * @param ex NoResourceFoundException lançada
+   * @return um ProblemDetail, no formato RFC 7807, com informações sobre o erro
+   */
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ProblemDetail handleNoResourceFound(NoResourceFoundException ex) {
+<span class="fc" id="L78">    log.warn(&quot;Recurso não encontrado: {}&quot;, ex.getMessage());</span>
+<span class="fc" id="L79">    return construirProblem(HttpStatus.NOT_FOUND, &quot;Recurso Não Encontrado&quot;, ex.getMessage(),</span>
+        null);
+  }
+
+  /**
+   * Manipulador para DataAccessException - erros de acesso ao banco de dados (503).
+   * 
+   * @param ex DataAccessException lançada
+   * @return um ProblemDetail, no formato RFC 7807, com informações sobre o erro
+   */
+  @ExceptionHandler(DataAccessException.class)
+  public ProblemDetail handleDataAccessException(DataAccessException ex) {
+<span class="fc" id="L91">    log.error(&quot;Erro de acesso ao banco de dados&quot;, ex);</span>
+<span class="fc" id="L92">    return construirProblem(HttpStatus.SERVICE_UNAVAILABLE, &quot;Banco de Dados Indisponível&quot;,</span>
+        &quot;O banco de dados está temporariamente indisponível. Tente novamente em alguns instantes.&quot;,
+        null);
+  }
+
+  /**
+   * Manipulador de exceção genérica para erros inesperados (500).
+   * 
+   * @param ex Exception lançada
+   * @return um ProblemDetail, no formato RFC 7807, com informações sobre o erro
+   */
+  @ExceptionHandler(Exception.class)
+  public ProblemDetail handleGenerico(Exception ex) {
+<span class="fc" id="L105">    log.error(&quot;Erro interno não esperado&quot;, ex);</span>
+<span class="fc" id="L106">    return construirProblem(HttpStatus.INTERNAL_SERVER_ERROR, &quot;Erro Interno do Servidor&quot;,</span>
+        &quot;Ocorreu um erro inesperado. Consulte os logs para mais detalhes.&quot;, null);
+  }
+
+  private ProblemDetail construirProblem(HttpStatus status, String titulo, String detalhe,
+      Map&lt;String, String&gt; campos) {
+<span class="fc" id="L112">    ProblemDetail problem = ProblemDetail.forStatus(status);</span>
+<span class="fc" id="L113">    problem.setTitle(titulo);</span>
+<span class="fc" id="L114">    problem.setDetail(detalhe);</span>
+<span class="fc" id="L115">    problem.setType(URI.create(&quot;ms-usuario/errors&quot;));</span>
+<span class="pc bpc" id="L116" title="1 of 4 branches missed.">    if (campos != null &amp;&amp; !campos.isEmpty()) {</span>
+<span class="fc" id="L117">      problem.setProperty(&quot;campos&quot;, campos);</span>
+    }
+<span class="fc" id="L119">    return problem;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

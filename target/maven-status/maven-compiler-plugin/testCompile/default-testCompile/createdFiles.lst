@@ -1,0 +1,17 @@
+com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioControllerTest.class
+com\empresa\usuario\infrastructure\handler\GlobalExceptionHandlerTest$ExcecoesValidacaoTecnicas$1.class
+com\empresa\usuario\infrastructure\handler\GlobalExceptionHandlerTest$ExcecoesValidacaoTecnicas.class
+com\empresa\usuario\infrastructure\handler\GlobalExceptionHandlerTest.class
+com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImplTest$CenariosSuccesso.class
+com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImplTest.class
+com\empresa\usuario\domain\model\UsuarioTest$ConstructorTests.class
+com\empresa\usuario\infrastructure\handler\GlobalExceptionHandlerTest$ExcecoesNegocio.class
+com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioControllerTest$Cadastrar.class
+com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImplTest$CenariosFalha.class
+com\empresa\usuario\domain\model\UsuarioTest$NovoFactory.class
+com\empresa\usuario\infrastructure\adapter\out\persistence\UsuarioPersistenceAdapterTest.class
+com\empresa\usuario\application\usecase\BuscarUsuarioUseCaseImplTest$CenariosFailha.class
+com\empresa\usuario\domain\model\UsuarioTest.class
+com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImplTest$CenariosSuccesso.class
+com\empresa\usuario\application\usecase\CadastrarUsuarioUseCaseImplTest.class
+com\empresa\usuario\infrastructure\adapter\in\rest\UsuarioControllerTest$BuscarPorId.class
